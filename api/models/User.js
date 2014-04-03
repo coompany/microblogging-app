@@ -15,12 +15,14 @@ module.exports = {
   	*/
     username: {
       type: 'string',
-      required: true
+      required: true,
+      unique: true
     },
     email: {
       type: 'string',
       required: true,
-      email: true
+      email: true,
+        unique: true
     },
     password: {
       type: 'string',
