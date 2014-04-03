@@ -1,0 +1,20 @@
+doctype html
+html
+  head
+    title= title
+    // Viewport mobile tag for sensible mobile support
+    meta(name="viewport",content="width=device-width, initial-scale=1, maximum-scale=1")
+    // STYLES
+    
+    // STYLES END
+
+  body
+    include includes/navbar.jade
+
+    block body
+
+    // SCRIPTS
+    script(type="text/javascript", src="/linker/js/socket.io.js")
+    script(type="text/javascript", src="/linker/js/sails.io.js")
+    script(type="text/javascript", src="/linker/js/app.js")
+    // SCRIPTS END
