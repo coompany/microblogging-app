@@ -1,0 +1,21 @@
+{
+  "name": "microblogging-app",
+  "version": "0.0.0",
+  "homepage": "https://github.com/coompany/microblogging-app",
+  "authors": [
+    "Coompany srls <info@coompany.eu>"
+  ],
+  "description": "A sample microblogging platform",
+  "main": "app.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "~3.1.1"
+  }
+}

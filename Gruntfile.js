@@ -139,6 +139,16 @@ module.exports = function (grunt) {
     pkg: grunt.file.readJSON('package.json'),
 
     copy: {
+      bootstrap: {
+        files: [
+          {
+            expand: true,
+            cwd: './bower_components/bootstrap/less',
+            src: ['**/**.less'],
+            dest: './assets/linker/styles/bootstrap'
+          }
+        ]
+      },
       dev: {
         files: [
           {
@@ -162,6 +172,7 @@ module.exports = function (grunt) {
     },
 
     clean: {
+      bootstrap: ['./assets/linker/styles/bootstrap'],
       dev: ['.tmp/public/**'],
       build: ['www']
     },
@@ -422,7 +433,9 @@ module.exports = function (grunt) {
   grunt.registerTask('compileAssets', [
     'clean:dev',
     'jst:dev',
+    'copy:bootstrap',
     'less:dev',
+    'clean:bootstrap',
     'copy:dev',    
     'coffee:dev'
   ]);
@@ -452,7 +465,9 @@ module.exports = function (grunt) {
   grunt.registerTask('prod', [
     'clean:dev',
     'jst:dev',
+    'copy:bootstrap',
     'less:dev',
+    'clean:bootstrap',
     'copy:dev',
     'coffee:dev',
     'concat',
