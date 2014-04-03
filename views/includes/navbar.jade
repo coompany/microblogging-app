@@ -2,8 +2,8 @@ nav#main-navbar.navbar.navbar-inverse
     .navbar-header
         a.navbar-brand(href='/') Microblogging app
     .pull-right
-        p= JSON.stringify(user)
-        if user == 'undefined'
-            a(href="/login") Login
+        if !req.session.authenticated
+            a(href="/user/login") Login
         else
-            span= JSON.stringify(user)
+            span= 'Benvenuto ' + req.session.user.username
+            a(href="/user/logout") Logout

@@ -5,7 +5,7 @@ block body
         .jumbotron
             h1 Login!
             p= JSON.stringify(errors)
-            form(method="post", action="/login").form-inline
+            form(method="post").form-inline
                 .form-group
                     label Email address
                     input(type="email", name="email").form-control

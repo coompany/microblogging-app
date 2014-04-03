@@ -74,18 +74,29 @@ module.exports = {
     }
 
   },
-find: function(request,response){
-    User.find().done( function(err,utenti){
-        if(err){
-            sails.log(err);
-            response.view('users/list',{errors: err});
-        }else{
-            response.view('users/list',{result: utenti});
-            sails.log(utenti);
-        }
-    })
 
-}
+  find: function(request,response){
+      User.find().done( function(err,utenti){
+          if(err){
+              sails.log(err);
+              response.view('users/list',{errors: err});
+          }else{
+              response.view('users/list',{result: utenti});
+              sails.log(utenti);
+          }
+      });
+
+  },
+
+  logout: function(req, res) {
+    if(req.session.authenticated) {
+      req.session.authenticated = false;
+      delete req.session.user;
+      res.redirect('/');
+    } else {
+      res.redirect('/user/login');
+    }
+  }
 
   
 };
