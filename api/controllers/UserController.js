@@ -46,6 +46,33 @@ module.exports = {
       response.view('signup');
     }
 
+  },
+
+  login: function(request, response) {
+
+    if(request.method === "GET") {
+      response.view('login', { title: 'Microblogging app login' });
+    } else if(request.method === "POST") {
+      User.findOne({ email: request.body.email })
+        .done(function(err, user) {
+          if(err) {
+            sails.log("Failed login...");
+            response.view('login', { errors: err })
+          } else {
+            if(user) {
+              request.session.authenticated = true;
+              request.session.user = user;
+              sails.log(user);
+              response.redirect('/');
+            } else {
+              sails.log("utente non trovato");
+              request.session.authenticated = false;
+              response.view('login', { errors: [{ message: 'Utente non trovato' }] })
+            }
+          }
+        });
+    }
+
   }
 
 

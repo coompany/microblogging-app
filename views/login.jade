@@ -1,0 +1,15 @@
+extends ./layout
+
+block body
+    .container
+        .jumbotron
+            h1 Login!
+            p= JSON.stringify(errors)
+            form(method="post", action="/login").form-inline
+                .form-group
+                    label Email address
+                    input(type="email", name="email").form-control
+                .form-group
+                    label Password
+                    input(type="password", name="password").form-control
+                button(type="submit").btn.btn-lg.btn-success Login here
