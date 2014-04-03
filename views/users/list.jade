@@ -1,0 +1,17 @@
+//
+   Created by Gaetano on 03/04/2014.
+extends ../layout
+block body
+    .container
+        .row
+            .col-sx-12
+                p= result
+                if(result.length > 0)
+                    each utente in result
+                        .row
+                            div.col-sx-12
+                                p= utente.id
+                                p= utente.username
+                else
+                    p Nessun risultato
+

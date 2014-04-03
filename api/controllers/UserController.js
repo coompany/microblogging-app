@@ -73,8 +73,19 @@ module.exports = {
         });
     }
 
-  }
+  },
+find: function(request,response){
+    User.find().done( function(err,utenti){
+        if(err){
+            sails.log(err);
+            response.view('users/list',{errors: err});
+        }else{
+            response.view('users/list',{result: utenti});
+            sails.log(utenti);
+        }
+    })
 
+}
 
   
 };
