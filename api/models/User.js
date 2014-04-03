@@ -13,6 +13,20 @@ module.exports = {
   	/* e.g.
   	nickname: 'string'
   	*/
+    username: {
+      type: 'string',
+      required: true
+    },
+    email: {
+      type: 'string',
+      required: true,
+      email: true
+    },
+    password: {
+      type: 'string',
+      required: true,
+      minLength: 6
+    }
     
   }
 

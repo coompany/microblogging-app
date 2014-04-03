@@ -28,5 +28,26 @@ module.exports = {
 
 
 
+
+  create: function(request, response) {
+
+    if(request.method === "GET") {
+      response.view('signup', { title: 'Microblogging app signup' });
+    } else if(request.method === "POST") {
+      var datas = request.body;
+
+      User.create(datas).done(function(err, user) {
+        if(err) response.view('signup', { errors: err });
+        else {
+          response.view('signup', { user: user });
+        }
+      });
+
+      response.view('signup');
+    }
+
+  }
+
+
   
 };
