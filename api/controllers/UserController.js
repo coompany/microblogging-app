@@ -99,6 +99,18 @@ module.exports = {
       }
   },
 
+    destroy: function(request,response){
+      User.destroy(request.param("id")).done(function(err){
+          if(err){
+              sails.log("Utente non cancellato");
+          }else{
+              request.flash("success","Utente eliminato!");
+          }
+          response.redirect('/user');
+      });
+
+    },
+
   logout: function(req, res) {
     if(req.session.authenticated) {
       req.session.authenticated = false;

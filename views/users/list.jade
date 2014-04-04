@@ -5,6 +5,9 @@ block body
     .container
         .row
             .col-sx-12
+                if(req.session.flash && req.session.flash.success)
+                    .alert.alert-success
+                        p= req.flash('success')
                 if(result.length > 0)
                     table.table.table-hover
                         thead:tr
@@ -22,7 +25,7 @@ block body
                                         .btn-group.btn-group-sm
                                             a.btn.btn-primary(href="/user/" + utente.id) Read
                                             a.btn.btn-primary(href="#") Update
-                                            a.btn.btn-primary(href="#") Delete
+                                            a.btn.btn-primary(href="/user/destroy/" + utente.id) Delete
                 else
                     p Nessun risultato
 
