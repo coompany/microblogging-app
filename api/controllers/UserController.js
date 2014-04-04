@@ -83,7 +83,7 @@ module.exports = {
                   sails.log(err);
                   response.view('users/read' ,{errors: err});
               } else {
-                  response.view('users/read', {result: utente});
+                  response.view('users/read', {result: utente.toJSON()});
               }
           });
       }else {

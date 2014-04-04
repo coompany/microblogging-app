@@ -28,7 +28,18 @@ module.exports = {
       type: 'string',
       required: true,
       minLength: 6
+    },
+    firstName:{
+       type: 'string'
+    },
+    lastName:{
+        type:'string'
+    },
+    dateOfBirth:{
+        type:'date'
     }
+
+
     
   }
 
