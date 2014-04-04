@@ -1,9 +1,10 @@
-nav#main-navbar.navbar.navbar-inverse
-    .navbar-header
-        a.navbar-brand(href='/') Microblogging app
-    .pull-right
-        if !req.session.authenticated
-            a(href="/user/login") Login
-        else
-            span= 'Benvenuto ' + req.session.user.username
-            a(href="/user/logout") Logout
+nav#main-navbar.navbar.navbar-fixed-top.navbar-inverse
+    .container
+        .navbar-header
+            a.navbar-brand(href='/') Microblogging app
+        p.navbar-text.navbar-right
+            if !req.session.authenticated
+                a.navbar-link(href="/user/login") Login
+            else
+                = 'Benvenuto ' + req.session.user.username + ' | '
+                a.navbar-link(href="/user/logout") Logout
