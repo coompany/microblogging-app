@@ -59,7 +59,7 @@ module.exports = {
             sails.log("Failed login...");
             response.view('login', { errors: err })
           } else {
-            if(user) {
+            if(user && (request.param("password") == user.password)) {
               request.session.authenticated = true;
               request.session.user = user;
               sails.log(user);
