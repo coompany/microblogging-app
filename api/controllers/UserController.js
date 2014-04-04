@@ -76,16 +76,27 @@ module.exports = {
   },
 
   find: function(request,response){
-      User.find().done( function(err,utenti){
-          if(err){
-              sails.log(err);
-              response.view('users/list',{errors: err});
-          }else{
-              response.view('users/list',{result: utenti});
-              sails.log(utenti);
-          }
-      });
 
+      if(typeof request.param("id")!= 'undefined'){
+          User.findOne(request.param("id")).done(function(err,utente){
+              if (err) {
+                  sails.log(err);
+                  response.view('users/read' ,{errors: err});
+              } else {
+                  response.view('users/read', {result: utente});
+              }
+          });
+      }else {
+          User.find().done(function (err, utenti) {
+              if (err) {
+                  sails.log(err);
+                  response.view('users/list', {errors: err});
+              } else {
+                  response.view('users/list', {result: utenti});
+                  sails.log(utenti);
+              }
+          });
+      }
   },
 
   logout: function(req, res) {
