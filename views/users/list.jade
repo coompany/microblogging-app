@@ -5,13 +5,24 @@ block body
     .container
         .row
             .col-sx-12
-                p= result
                 if(result.length > 0)
-                    each utente in result
-                        .row
-                            div.col-sx-12
-                                p= utente.id
-                                p= utente.username
+                    table.table.table-hover
+                        thead:tr
+                            th id
+                            th username
+                            th email
+                            th actions
+                        tbody
+                            each utente in result
+                                tr
+                                    td= utente.id
+                                    td= utente.username
+                                    td= utente.email
+                                    td
+                                        .btn-group.btn-group-sm
+                                            a.btn.btn-primary(href="#") Read
+                                            a.btn.btn-primary(href="#") Update
+                                            a.btn.btn-primary(href="#") Delete
                 else
                     p Nessun risultato
 

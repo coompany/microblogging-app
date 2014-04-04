@@ -1,5 +1,22 @@
 @import 'bootstrap/bootstrap.less';
 
+// variables
+@purple-color: #7A0050;
+
+// mixins
+.button-gradient {
+  // #gradient > .vertical(@start-color: #555; @end-color: #333; @start-percent: 0%; @end-percent: 100%)
+  #gradient > .vertical(@purple-color, darken(@purple-color, 10%), @end-percent: 70%);
+}
+
 body {
   padding-top: 100px;
+
+  .btn {
+    &.btn-primary {
+      .button-gradient;
+      // syntax: .button-variant(@color; @background; @border)
+      .button-variant(white, @purple-color, lighten(@purple-color, 5%));
+    }
+  }
 }
