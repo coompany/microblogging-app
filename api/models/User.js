@@ -44,7 +44,6 @@ module.exports = {
       delete obj.password;
       delete obj.createdAt;
       delete obj.updatedAt;
-      delete obj.id;
       return obj;
     }
 

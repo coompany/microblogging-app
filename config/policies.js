@@ -22,7 +22,9 @@ module.exports.policies = {
 
   UserController: {
     login: true,
-    create: true
+    create: true,
+    update: ['userProfilePermissions'],
+    destroy: ['userProfilePermissions']
   }
 
   /*
