@@ -1,0 +1,42 @@
+//
+   Created by acidghost on 07/04/14.
+
+extends ../layout
+
+block body
+    .container
+        .jumbotron
+            h1 Update user informations
+            if req.session.flash
+                if req.session.flash.success
+                    .alert.alert-success
+                        p= req.flash('success')
+                if req.session.flash.error
+                    .alert.alert-danger
+                        p= req.flash('error')
+            if user
+                form(method="post").form-horizontal
+                    .form-group
+                        label.col-sm-3 Username
+                        .col-sm-9
+                            input(placeholder="username", name="username", value=user.username)#username.form-control
+                    .form-group
+                        label.col-sm-3 E-mail
+                        .col-sm-9
+                            input(placeholder="email", name="email", value=user.email)#email.form-control
+                    .form-group
+                        label.col-sm-3 Nome
+                        .col-sm-9
+                            input(placeholder="nome",name="firstName", value=user.firstName).form-control
+                    .form-group
+                        label.col-sm-3 Cognome
+                        .col-sm-9
+                            input(placeholder="cognome",name="lastName", value=user.lastName).form-control
+                    .form-group
+                        label.col-sm-3 Data di nascita
+                        .col-sm-9
+                            input(placeholder="data di nascita",name="dateOfBirth",type="date", value=user.dateOfBirth).form-control
+                    .form-group.btn-group
+                        button(type="submit").btn.btn-lg.btn-primary Update
+                        button(type="reset").btn.btn-lg.btn-inverse Reset
+

@@ -99,6 +99,36 @@ module.exports = {
       }
   },
 
+  update: function(request, response) {
+
+    var resObject = {};
+    User.findOne(request.param('id')).done(function(err, usr) {
+      if(err) {
+        request.flash('error', 'Unable to retrieve the user...');
+        resObject = { errors: err };
+      } else {
+        if(request.method === 'GET') {
+          resObject = { user: usr };
+        } else {
+          for(var key in request.body) {
+            usr[key] = request.body[key];
+          }
+          usr.save(function(err) {
+            if(err) {
+              request.flash('error', 'Unable to save the user...');
+              resObject = { errors: err, user: usr };
+            } else {
+              request.flash('success', 'User saved successfully!');
+              resObject = { user: usr };
+            }
+          });
+        }
+      }
+    });
+    response.view('users/update', resObject);
+
+  },
+
     destroy: function(request,response){
       User.destroy(request.param("id")).done(function(err){
           if(err){
