@@ -8,4 +8,11 @@ block body
             each attr in result
                 p= attr
 
-
+            form.form-horizontal(method="post", action="/posts")
+                .form-group
+                    .col-sm-6.col-sm-offset-6
+                        textarea.form-control(rows="3", name="message", value=message, placeholder="What's on your mind?")
+                .form-group
+                    .col-sm-6.col-sm-offset-6.text-right
+                        button.btn.btn-lg.btn-primary(type="submit", name="postMessage")= 'Post '
+                            span.glyphicon.glyphicon-send

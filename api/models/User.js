@@ -9,7 +9,7 @@
 module.exports = {
 
   attributes: {
-  	
+
   	/* e.g.
   	nickname: 'string'
   	*/
@@ -37,6 +37,11 @@ module.exports = {
     },
     dateOfBirth:{
         type:'date'
+    },
+
+    comments: {
+      collection: 'post',
+      via: 'author'
     },
 
     toJSON: function() {
