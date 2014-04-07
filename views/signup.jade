@@ -10,25 +10,27 @@ block body
                 .form-group
                     label.col-sm-3 Username
                     .col-sm-9
-                        input(placeholder="username", name="username")#username.form-control
+                        input(placeholder="username", name="username", type="text", value=user ? user.username : '')#username.form-control
                 .form-group
                     label.col-sm-3 E-mail
                     .col-sm-9
-                        input(placeholder="email", name="email")#email.form-control
+                        input(placeholder="email", name="email", type="email", value=user ? user.email : '')#email.form-control
                 .form-group
                     label.col-sm-3 Password
                     .col-sm-9
                         input(placeholder="password", name="password", type="password")#password.form-control
                 .form-group
-                labe.col-sm-3 Nome
-                .col-sm-9
-                    input(placeholder="nome",name="firstName").form-control
-                labe.col-sm-3 Cognome
-                .col-sm-9
-                    input(placeholder="cognome",name="lasttName").form-control
-                labe.col-sm-3 Data di nascita
-                .col-sm-9
-                    input(placeholder="data di nascita",name="dateOfBirth",type="date").form-control
+                    label.col-sm-3 Nome
+                    .col-sm-9
+                        input(placeholder="nome",name="firstName", value=user ? user.firstName : '').form-control
+                .form-group
+                    label.col-sm-3 Cognome
+                    .col-sm-9
+                        input(placeholder="cognome",name="lastName", value=user ? user.lastName : '').form-control
+                .form-group
+                    label.col-sm-3 Data di nascita
+                    .col-sm-9
+                        input(placeholder="data di nascita",name="dateOfBirth",type="date", value=user ? user.dateOfBirth : '').form-control
                 .form-group.btn-group
                     button(type="submit").btn.btn-lg.btn-success Signup!
                     button(type="reset").btn.btn-lg.btn-warning Reset
