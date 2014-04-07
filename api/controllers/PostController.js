@@ -25,9 +25,7 @@ module.exports = {
    * (specific to PostController)
    */
   _config: {
-    blueprints: {
-      pluralize: true
-    }
+    pluralize: true
   },
 
 
@@ -40,15 +38,18 @@ module.exports = {
         if(user) {
           Post.create({
             text: req.param('message'),
-            author: req.session.user.id
+            author: user.id
           }).done(function(err, post) {
             if(err) {
               req.flash('error', 'Error creating the message...');
-              res.view('users/read', { user: user, newPost: post });
+            } else {
+              req.flash('success', 'Post added successfully!');
             }
+            res.redirect('/user/'+user.id);
           });
         } else {
           req.flash('error', 'Unable to find the requested user...');
+          res.redirect('back');
         }
       }
     });
