@@ -83,47 +83,41 @@ module.exports = {
                   sails.log(err);
                   response.view('users/read' ,{errors: err});
               } else {
-                sails.log(utente.comments);
-                var asyncFunctions = [],
-                    userComments = [];
-                for(var c in utente.comments) {
-                  if(typeof utente.comments[c] != 'object') {
-                    sails.log.warn('typeof = '+typeof utente.comments[c]);
-                    //delete utente.comments[c];
+                var comments = [];
+                for(var c=0; c<utente.comments.length; c++) {
+                  if (typeof utente.comments[c] != 'object') {
+                    sails.log.warn('typeof = ' + typeof utente.comments[c]);
                   } else {
-                    var currentComment = utente.comments[c];
-                    asyncFunctions.push(function(cb) {
-                      User.findOne(currentComment.author).done(function(err, author) {
-                        if(err) {
-                          sails.log.error(err);
-                          response.send(500, err);
-                        }
-                        User.find(currentComment.taggedUsers).done(function(err, users) {
-                          if(err) {
-                            sails.log.error(err);
-                            response.send(500, err);
-                          }
-                          sails.log('exiting function');
-                          currentComment.author = author.toJSON();
-                          if(users.length > 0) {
-                            for(var i in users) {
-                              users[i] = users[i].toJSON();
-                            }
-                          }
-                          currentComment.taggedUsers = users;
-                          userComments.push(currentComment);
-                          sails.log.warn(currentComment);
-                          cb(null, userComments);
-                        });
-                      });
-                    });
+                    comments.push(utente.comments[c]);
                   }
                 }
-                async.series(asyncFunctions, function(err, comments) {
-                  sails.log('Calling the view');
-                  sails.log(comments[comments.length-1]);
+
+                async.map(comments, function(comment, cb) {
+                  User.findOne(comment.author).done(function(err, author) {
+                    if(err) {
+                      sails.log.error(err);
+                      response.send(500, err);
+                    }
+                    User.find({ id: comment.taggedUsers }).done(function(err, users) {
+                      if(err) {
+                        sails.log.error(err);
+                        response.send(500, err);
+                      }
+                      comment.author = author.toJSON();
+                      if(users.length > 0) {
+                        for(var i in users) {
+                          users[i] = users[i].toJSON();
+                        }
+                      }
+                      comment.taggedUsers = users;
+                      cb(null, comment);
+                    });
+                  });
+                }, function(err, comments) {
+                  sails.log('Transformed comments:');
+                  sails.log(comments);
                   var usr = utente.toJSON();
-                  usr.comments = comments[0];
+                  usr.comments = comments;
                   response.view('users/read', {result: usr});
                 });
               }

@@ -36,12 +36,7 @@ module.exports = {
         res.send(500, err);
       } else {
         if(user) {
-          var taggedUsers = [],
-              tuParam = req.param('taggedUsers');
-          for(var k in tuParam) {
-            taggedUsers.push(tuParam[k]);
-          }
-          sails.log(taggedUsers);
+          var taggedUsers = req.param('taggedUsers');
           Post.create({
             text: req.param('message'),
             author: user.id,
@@ -53,7 +48,7 @@ module.exports = {
             } else {
               req.flash('success', 'Post added successfully!');
             }
-            sails.log('post: '+post.toJSON());
+            sails.log('post: '+JSON.stringify(post));
             res.redirect('back');
           });
         } else {
