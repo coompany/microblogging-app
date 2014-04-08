@@ -18,6 +18,9 @@ module.exports = {
 
     author: {
       model: 'user'
+    },
+    taggedUsers: {
+      model: 'user'
     }
     
   }

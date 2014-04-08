@@ -78,12 +78,54 @@ module.exports = {
   find: function(request,response){
 
       if(typeof request.param("id")!= 'undefined'){
-          User.findOne(request.param("id")).populate('comments').done(function(err,utente){
+          User.findOne(request.param("id")).populate('comments', { taggedUsers: request.param('id') }).done(function(err,utente){
               if (err) {
                   sails.log(err);
                   response.view('users/read' ,{errors: err});
               } else {
-                  response.view('users/read', {result: utente.toJSON()});
+                sails.log(utente.comments);
+                var asyncFunctions = [],
+                    userComments = [];
+                for(var c in utente.comments) {
+                  if(typeof utente.comments[c] != 'object') {
+                    sails.log.warn('typeof = '+typeof utente.comments[c]);
+                    //delete utente.comments[c];
+                  } else {
+                    var currentComment = utente.comments[c];
+                    asyncFunctions.push(function(cb) {
+                      User.findOne(currentComment.author).done(function(err, author) {
+                        if(err) {
+                          sails.log.error(err);
+                          response.send(500, err);
+                        }
+                        User.find(currentComment.taggedUsers).done(function(err, users) {
+                          if(err) {
+                            sails.log.error(err);
+                            response.send(500, err);
+                          }
+                          sails.log('exiting function');
+                          currentComment.author = author.toJSON();
+                          if(users.length > 0) {
+                            for(var i in users) {
+                              users[i] = users[i].toJSON();
+                            }
+                          }
+                          currentComment.taggedUsers = users;
+                          userComments.push(currentComment);
+                          sails.log.warn(currentComment);
+                          cb(null, userComments);
+                        });
+                      });
+                    });
+                  }
+                }
+                async.series(asyncFunctions, function(err, comments) {
+                  sails.log('Calling the view');
+                  sails.log(comments[comments.length-1]);
+                  var usr = utente.toJSON();
+                  usr.comments = comments[0];
+                  response.view('users/read', {result: usr});
+                });
               }
           });
       }else {

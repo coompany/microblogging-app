@@ -36,16 +36,25 @@ module.exports = {
         res.send(500, err);
       } else {
         if(user) {
+          var taggedUsers = [],
+              tuParam = req.param('taggedUsers');
+          for(var k in tuParam) {
+            taggedUsers.push(tuParam[k]);
+          }
+          sails.log(taggedUsers);
           Post.create({
             text: req.param('message'),
-            author: user.id
-          }).done(function(err, post) {
+            author: user.id,
+            taggedUsers: taggedUsers
+          }).populate('taggedUsers').populate('author').done(function(err, post) {
             if(err) {
+              sails.log.error(err);
               req.flash('error', 'Error creating the message...');
             } else {
               req.flash('success', 'Post added successfully!');
             }
-            res.redirect('/user/'+user.id);
+            sails.log('post: '+post.toJSON());
+            res.redirect('back');
           });
         } else {
           req.flash('error', 'Unable to find the requested user...');
