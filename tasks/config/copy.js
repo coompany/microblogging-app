@@ -23,6 +23,11 @@ module.exports = function(grunt) {
           cwd: './bower_components/bootstrap/less',
           src: ['**/**.less'],
           dest: './assets/linker/styles/bootstrap'
+        }, {
+          expand: true,
+          cwd: './bower_components/bootstrap/fonts',
+          src: ['**/**'],
+          dest: './assets/linker/fonts'
         }
       ]
     },
