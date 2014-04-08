@@ -5,14 +5,20 @@ extends ../layout
 block body
     .container
         .jumbotron
-            each attr in result
-                p= attr
+            p= result.username
+            p= result.email
+            p= result.firstName + ' ' + result.lastName
+            if result.comments
+                each comm in result.comments
+                    .alert
+                        p= comm.text + ' @ ' + comm.createdAt
 
-            form.form-horizontal(method="post", action="/posts")
-                .form-group
-                    .col-sm-6.col-sm-offset-6
-                        textarea.form-control(rows="3", name="message", value=message, placeholder="What's on your mind?")
-                .form-group
-                    .col-sm-6.col-sm-offset-6.text-right
-                        button.btn.btn-lg.btn-primary(type="submit", name="postMessage")= 'Post '
-                            span.glyphicon.glyphicon-send
+            if req.session.user.id == result.id
+                form.form-horizontal(method="post", action="/posts")
+                    .form-group
+                        .col-sm-6.col-sm-offset-6
+                            textarea.form-control(rows="3", name="message", value=message, placeholder="What's on your mind?")
+                    .form-group
+                        .col-sm-6.col-sm-offset-6.text-right
+                            button.btn.btn-lg.btn-primary(type="submit", name="postMessage")= 'Post '
+                                span.glyphicon.glyphicon-send

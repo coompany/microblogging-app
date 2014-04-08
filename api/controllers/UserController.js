@@ -78,7 +78,7 @@ module.exports = {
   find: function(request,response){
 
       if(typeof request.param("id")!= 'undefined'){
-          User.findOne(request.param("id")).done(function(err,utente){
+          User.findOne(request.param("id")).populate('comments').done(function(err,utente){
               if (err) {
                   sails.log(err);
                   response.view('users/read' ,{errors: err});
