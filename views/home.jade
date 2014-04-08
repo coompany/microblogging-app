@@ -5,5 +5,8 @@ block body
     .jumbotron
       h1 Welcome to the microblogging app!
       .btn-group.btn-group-lg
-        a.btn.btn-primary(href='/user/login') Login
-        a.btn.btn-primary(href='/signup') Signup
+          if !req.session.authenticated
+              a.btn.btn-primary(href='/user/login') Login
+              a.btn.btn-primary(href='/signup') Signup
+          else
+              a.btn.btn-primary(href='/user') Lista degli utenti
