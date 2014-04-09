@@ -4,8 +4,11 @@ nav#main-navbar.navbar.navbar-fixed-top.navbar-inverse
             a.navbar-brand(href='/') Microblogging app
         if req.session.authenticated
             ul.nav.navbar-nav
+                - console.log(req.route.path)
                 li(class=(req.route.path=='/user/:id?' && req.param('id')==undefined) ? ('active') : null)
                     a(href="/user") Users
+                li(class=(req.route.path=='/wall') ? ('active') : null)
+                    a(href="/wall") Wall
         p.navbar-text.navbar-right
             if !req.session.authenticated
                 a.navbar-link(href="/user/login") Login

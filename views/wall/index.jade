@@ -1,0 +1,35 @@
+//
+   Created by acidghost on 09/04/14.
+
+extends ../layout
+
+block body
+    .container
+        .row.jumbotron2
+            .col-xs-12.post-list
+                hr
+                each post in posts
+                    .row
+                        .col-sm-9
+                            .media
+                                a.pull-left(href="/user/"+post.author.id)
+                                    img.media-object(src="http://placehold.it/60")
+                                .media-body
+                                    h4.media-header
+                                        a(href="/user/"+post.author.id)= post.author.username
+                                        =' '
+                                        small wrote on
+                                            date= ' ' + post.createdAt
+                                            =':'
+                                    p.post-container= post.text
+                        .col-sm-3.tagged-users-list
+                            if (post.taggedUsers.length == 1 && post.taggedUsers[0].id == post.author.id)
+                                p On his own profile
+                            else
+                                p Tagged user(s):
+                                    ul
+                                        each tUser in post.taggedUsers
+                                            li
+                                                a(href="/user/"+tUser.id)= tUser.username
+
+                    hr
