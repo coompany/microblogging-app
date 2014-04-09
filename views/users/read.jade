@@ -24,7 +24,7 @@ block body
                     form.form-horizontal(method="post", action="/posts")
                         .form-group
                             .col-sm-12
-                                textarea.form-control(rows="3", name="message", value=message, placeholder="What's on your mind?")
+                                textarea.form-control(rows="3", name="text", placeholder="What's on your mind?")
                         .form-group
                             .col-sm-12.text-right
                                 input(type="hidden", name="taggedUsers[0]", value=req.param('id'))

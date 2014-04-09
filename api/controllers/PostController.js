@@ -31,25 +31,39 @@ module.exports = {
 
   create: function(req, res) {
 
-    User.findOne(req.session.user.id).done(function(err, user) {
+    User.findOne(req.param('author') || req.session.user.id).done(function(err, user) {
       if(err) {
         res.send(500, err);
       } else {
         if(user) {
           var taggedUsers = req.param('taggedUsers');
+          sails.log(taggedUsers);
           Post.create({
-            text: req.param('message'),
-            author: user.id,
-            taggedUsers: taggedUsers
-          }).populate('taggedUsers').populate('author').done(function(err, post) {
+            text: req.param('text'),
+            author: user.id
+          }).exec(function(err, post) {
             if(err) {
-              sails.log.error(err);
+              sails.log.error('Post create err: '+err);
               req.flash('error', 'Error creating the message...');
+              res.redirect('back');
             } else {
-              req.flash('success', 'Post added successfully!');
+              async.eachSeries(taggedUsers, function(user, cb) {
+                post.taggedUsers.add(user);
+                post.save(function(err) {
+                  if(err) {
+                    sails.log.error('Post save err: '+err);
+                    res.send(500, err);
+                  } else {
+                    sails.log('Post saved: '+JSON.stringify(post));
+                    cb();
+                  }
+                });
+              }, function(err) {
+                req.flash('success', 'Post added successfully!');
+                sails.log('Post saving: '+JSON.stringify(post));
+                res.redirect('back');
+              });
             }
-            sails.log('post: '+JSON.stringify(post));
-            res.redirect('back');
           });
         } else {
           req.flash('error', 'Unable to find the requested user...');

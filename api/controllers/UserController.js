@@ -78,7 +78,7 @@ module.exports = {
   find: function(request,response){
 
       if(typeof request.param("id")!= 'undefined'){
-          User.findOne(request.param("id")).populate('comments', { taggedUsers: request.param('id') }).done(function(err,utente){
+          User.findOne(request.param("id")).populate('comments').done(function(err,utente){
               if (err) {
                   sails.log(err);
                   response.view('users/read' ,{errors: err});
@@ -91,6 +91,7 @@ module.exports = {
                     comments.push(utente.comments[c]);
                   }
                 }
+                sails.log.warn('Found comments: '+JSON.stringify(comments));
 
                 async.map(comments, function(comment, cb) {
                   User.findOne(comment.author).done(function(err, author) {
@@ -98,18 +99,17 @@ module.exports = {
                       sails.log.error(err);
                       response.send(500, err);
                     }
-                    User.find({ id: comment.taggedUsers }).done(function(err, users) {
+                    Post.findOne(comment.id).populate('taggedUsers').done(function(err, post) {
                       if(err) {
                         sails.log.error(err);
                         response.send(500, err);
                       }
                       comment.author = author.toJSON();
-                      if(users.length > 0) {
-                        for(var i in users) {
-                          users[i] = users[i].toJSON();
+                      if(post.taggedUsers.length > 0) {
+                        for(var i in post.taggedUsers) {
+                          comment.taggedUsers[i] = post.taggedUsers[i];
                         }
                       }
-                      comment.taggedUsers = users;
                       cb(null, comment);
                     });
                   });

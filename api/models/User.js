@@ -41,7 +41,8 @@ module.exports = {
 
     comments: {
       collection: 'post',
-      via: 'taggedUsers'
+      via: 'taggedUsers',
+      dominant: true
     },
 
     toJSON: function() {

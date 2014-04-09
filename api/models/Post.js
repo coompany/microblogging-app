@@ -20,7 +20,8 @@ module.exports = {
       model: 'user'
     },
     taggedUsers: {
-      model: 'user'
+      collection: 'user',
+      via: 'comments'
     }
     
   }
