@@ -2,9 +2,15 @@ nav#main-navbar.navbar.navbar-fixed-top.navbar-inverse
     .container
         .navbar-header
             a.navbar-brand(href='/') Microblogging app
+        if req.session.authenticated
+            ul.nav.navbar-nav
+                li(class=(req.route.path=='/user/:id?' && req.param('id')==undefined) ? ('active') : null)
+                    a(href="/user") Users
         p.navbar-text.navbar-right
             if !req.session.authenticated
                 a.navbar-link(href="/user/login") Login
             else
-                = 'Benvenuto ' + req.session.user.username + ' | '
+                = 'Benvenuto '
+                a.navbar-link(href="/user/"+req.session.user.id)= req.session.user.username
+                = ' | '
                 a.navbar-link(href="/user/logout") Logout
